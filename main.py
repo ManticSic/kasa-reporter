@@ -1,10 +1,9 @@
-import subprocess
-import platform
 import asyncio
 
 from argparse import ArgumentParser
 from time import sleep
-from kasa import SmartPlug
+
+from collecting.kasa import KasaCollector
 from models.configuration import Configuration
 
 parser = ArgumentParser()
@@ -39,30 +38,14 @@ async def main():
 
     print(f'{repr(configuration)}')
 
-    device = get_emeter_device(configuration)
-    await device.update()
-
-    if not device.has_emeter:
-        raise Exception(f'{configuration.device} has no emeter.')
-
     print(f'Start fetching emeter data for {configuration.device} as {configuration.device_type} in {configuration.interval}s interval.')
+    collector = KasaCollector(configuration)
+    await collector.setup()
 
     while True:
-        await fetch_emeter_data(device)
+        data = await collector.fetch()
+        print(f'{data}')
         sleep(configuration.interval)
-
-
-async def fetch_emeter_data(emeter_device):
-    await emeter_device.update()
-    emeter = await emeter_device.get_emeter_realtime()
-    print(f'{emeter}')
-
-
-def get_emeter_device(configuration):
-    if configuration.device_type is 'plug':
-        return SmartPlug(configuration.device)
-    else:
-        raise Exception(f'Unsupported device type: {configuration.device_type}.')
 
 
 if __name__ == '__main__':
