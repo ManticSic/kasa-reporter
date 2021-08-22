@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  my_device:
+    image: kasa-reporter
+    restart: always
+    environment:
+      DEVICE: "unknown"
+      INTERVAL: 5
+      LOGSTASH_HOST: "unknown"
+      LOGSTASH_PORT: 5000
