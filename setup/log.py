@@ -5,6 +5,8 @@ import structlog
 import ecs_logging
 import setup.configuration
 
+from typing import Any
+from structlog.types import EventDict
 from logging import StreamHandler
 from logging.handlers import RotatingFileHandler
 
@@ -12,7 +14,7 @@ log_dir = 'log'
 log_file_name = 'kasa-reporter.log'
 
 
-def __configure_root_logger():
+def __configure_root_logger() -> None:
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
@@ -23,7 +25,7 @@ def __configure_root_logger():
     logger.addHandler(__get_rotating_file_handler())
 
 
-def __get_rotating_file_handler():
+def __get_rotating_file_handler() -> logging.Handler:
     return RotatingFileHandler(
         filename=f'{log_dir}/{log_file_name}',
         maxBytes=1024 * 1024,
@@ -31,11 +33,11 @@ def __get_rotating_file_handler():
     )
 
 
-def __get_stream_handler():
+def __get_stream_handler() -> logging.Handler:
     return StreamHandler(sys.stdout)
 
 
-def __add_configuration(logger, method_name, event_dict):
+def __add_configuration(logger: logging.Logger, method_name: str, event_dict: EventDict) -> EventDict:
     event_dict['configuration'] = setup.configuration.get_configuration().__dict__
 
     return event_dict
@@ -54,5 +56,5 @@ structlog.configure(
 )
 
 
-def get_logger():
-    return structlog.getLogger('kasa-reporter')
+def get_logger() -> Any:
+    return structlog.get_logger('kasa-reporter')

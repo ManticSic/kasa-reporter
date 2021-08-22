@@ -12,5 +12,5 @@ args = parser.parse_args()
 configuration = Configuration(args)
 
 
-def get_configuration():
+def get_configuration() -> Configuration:
     return configuration

@@ -10,7 +10,7 @@ configuration = setup.configuration.get_configuration()
 logger = setup.log.get_logger()
 
 
-async def main():
+async def main() -> None:
     logger.info('Start fetching data.')
     collector = KasaCollector(configuration)
     await collector.setup()
