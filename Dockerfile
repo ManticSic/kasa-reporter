@@ -7,7 +7,13 @@ ENV LOGSTASH_PORT 5000
 
 WORKDIR /usr/src/app
 
-COPY . .
+COPY entry.sh .
+COPY requierments.txt .
+COPY main.py .
+COPY setup setup
+COPY models models
+COPY collecting collecting
+
 RUN pip install --no-cache-dir -r requierments.txt
 
-ENTRYPOINT ["./entry.sh"]
+ENTRYPOINT "./entry.sh"
