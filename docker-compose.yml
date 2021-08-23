@@ -9,3 +9,4 @@ services:
       INTERVAL: 5
       LOGSTASH_HOST: "unknown"
       LOGSTASH_PORT: 5000
+    network_mode: "host"
