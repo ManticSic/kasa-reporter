@@ -14,7 +14,7 @@ jobs:
         run: |
           IMG=kasa-reporter
           echo "IMG=${IMG}" > $GITHUB_ENV
-          echo "IMAGE=ghcr.io/${{ github.repository_owner }}/${IMG}" > %GITHUB_ENV
+          echo "IMAGE=ghcr.io/${{ github.repository_owner }}/${IMG}" > $GITHUB_ENV
           echo "BUILD_DATE=$(date +'%Y-%m-%d %H:%M:%S')" > $GITHUB_ENV
 
       - name: Set up QEMU
