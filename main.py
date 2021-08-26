@@ -17,7 +17,7 @@ async def main() -> None:
 
     while True:
         data = await collector.fetch()
-        logger.info('Successfully fetched data.', data=data)
+        logger.info('Successfully fetched data.', data=data.__dict__)
         sleep(configuration.interval)
 
 
