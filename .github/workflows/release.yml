@@ -13,11 +13,9 @@ jobs:
       - name: Set Environment Variables
         run: |
           IMG=kasa-reporter
-          echo "::set-env name=IMG::${IMG}"
-          echo "::set-env name=IMAGE::ghcr.io/${{ github.repository_owner }}/${IMG}"
-          echo "::set-env name=BUILD_DATE::$(date +'%Y-%m-%d %H:%M:%S')"
-          echo "::set-env name=GIT_SHA::$(echo ${{ github.sha }} | cut -c1-7)"
-          echo "::set-env name=GIT_REF::$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)"
+          echo "IMG=${IMG}" > $GITHUB_ENV
+          echo "IMAGE=ghcr.io/${{ github.repository_owner }}/${IMG}" > %GITHUB_ENV
+          echo "BUILD_DATE=$(date +'%Y-%m-%d %H:%M:%S')" > $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -40,12 +38,12 @@ jobs:
           labels: |
             org.opencontainers.image.authors=${{ github.repository_owner }}
             org.opencontainers.image.created=${{ env.BUILD_DATE }}
-            org.opencontainers.image.description=Created from commit ${{ env.GIT_SHA }} and ref ${{ env.GIT_REF }}
-            org.opencontainers.image.ref.name=${{ env.GIT_REF }}
-            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.description=Created from commit $GITHUB_SHA and ref $GITHUB_REF
+            org.opencontainers.image.ref.name=$GITHUB_REF
+            org.opencontainers.image.revision=$GITHUB_SHA
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.version=${{ env.GIT_REF }}
+            org.opencontainers.image.version=$GITHUB_REF
           tags: |
             ${{ env.IMAGE }}:latest
-            ${{ env.IMAGE }}:${{ env.GIT_REF }}
-            ${{ env.IMAGE }}:${{ env.GIT_SHA }}
+            ${{ env.IMAGE }}:$GITHUB_REF
+            ${{ env.IMAGE }}:$GITHUB_SHA
