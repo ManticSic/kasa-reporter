@@ -44,5 +44,5 @@ jobs:
             org.opencontainers.image.version=$GITHUB_REF
           tags: |
             ${{ env.IMAGE }}:latest
-            ${{ env.IMAGE }}:${{ BUILD_VERSION }}
+            ${{ env.IMAGE }}:${{ env.BUILD_VERSION }}
             ${{ env.IMAGE }}:$GITHUB_SHA
