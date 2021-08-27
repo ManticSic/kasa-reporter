@@ -37,8 +37,8 @@ class EmeterService(BackgroundService):
 
         return CustomEmeterStatus(
             emeter_status['voltage_mv'],
-            emeter_status['current_ma'],
             emeter_status['power_mw'],
+            emeter_status['current_ma'],
             emeter_status['total_wh'],
             today,
             this_month
