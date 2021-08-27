@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   my_device:
-    image: kasa-reporter
+    image: ghcr.io/manticsic/kasa-reporter
     restart: always
     environment:
       FETCH_INTERVAL: 5
