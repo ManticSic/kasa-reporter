@@ -1,5 +1,6 @@
-from kasa import SmartPlug, EmeterStatus
+from kasa import SmartPlug
 from models.configuration import Configuration
+from models.customeemterstatus import CustomEmeterStatus
 
 
 class KasaCollector:
@@ -16,10 +17,21 @@ class KasaCollector:
         if not self.device.has_emeter:
             raise Exception(f'{self.configuration.device} has no emeter.')
 
-    async def fetch(self) -> EmeterStatus:
+    async def fetch(self) -> CustomEmeterStatus:
         await self.device.update()
 
-        return await self.device.get_emeter_realtime()
+        emeter_status = await self.device.get_emeter_realtime()
+        today = self.device.emeter_today
+        this_month = self.device.emeter_this_month
+
+        return CustomEmeterStatus(
+            emeter_status['voltage_mv'],
+            emeter_status['current_ma'],
+            emeter_status['power_mw'],
+            emeter_status['total_wh'],
+            today,
+            this_month
+        )
 
     async def __get_device(self) -> SmartPlug:
         if self.configuration.device_type is 'plug':
