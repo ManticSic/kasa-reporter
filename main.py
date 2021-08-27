@@ -2,23 +2,21 @@ import asyncio
 import sys
 import setup.log
 import setup.configuration
-
-from time import sleep
-from collecting.kasa import KasaCollector
+from services.discoveryservice import DiscoveryService
+from services.emeterservice import EmeterService
 
 configuration = setup.configuration.get_configuration()
-logger = setup.log.get_logger()
+logger = setup.log.get_logger('main')
+
+discovery_service = DiscoveryService()
+emeter_service = EmeterService(discovery_service)
 
 
 async def main() -> None:
     logger.info('Start fetching data.')
-    collector = KasaCollector(configuration)
-    await collector.setup()
 
-    while True:
-        data = await collector.fetch()
-        logger.info('Successfully fetched data.', data=data.__dict__)
-        sleep(configuration.interval)
+    discovery_service.start()
+    emeter_service.start()
 
 
 if __name__ == '__main__':

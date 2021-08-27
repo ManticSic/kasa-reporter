@@ -83,5 +83,5 @@ structlog.configure(
 )
 
 
-def get_logger() -> Any:
-    return structlog.get_logger('kasa-reporter')
+def get_logger(name: str) -> Any:
+    return structlog.get_logger(name)
