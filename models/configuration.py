@@ -1,8 +1,7 @@
 class Configuration:
 
     def __init__(self, args):
-        self.device = args.device
-        self.interval = args.interval
-        self.device_type = args.type
+        self.fetch_interval = args.fetch_interval
+        self.discover_interval = args.discover_interval
         self.logstash_host = args.logstash_host
         self.logstash_port = args.logstash_port

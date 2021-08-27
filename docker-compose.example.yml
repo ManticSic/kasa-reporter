@@ -5,8 +5,8 @@ services:
     image: kasa-reporter
     restart: always
     environment:
-      DEVICE: "unknown"
-      INTERVAL: 5
+      FETCH_INTERVAL: 5
+      DISCOVER_INTERVAL: 30
       LOGSTASH_HOST: "unknown"
       LOGSTASH_PORT: 5000
     network_mode: "host"
