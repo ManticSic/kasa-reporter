@@ -23,8 +23,8 @@ class DiscoveryService(BackgroundService):
             device_dict = dict(filter(lambda device: device[1].has_emeter, result.items()))
             self.devices = list(map(lambda device: device[1], device_dict.items()))
 
-            devices_spare = list(map(lambda device: SmartDeviceSpare(device), self.devices))
-            logger.info(f'Devices discovered.', devices=devices_spare.__repr__())
+            devices_spare = list(map(lambda device: SmartDeviceSpare(device).__dict__, self.devices))
+            logger.info(f'Devices discovered.', devices=devices_spare)
 
             sleep(10)
 
