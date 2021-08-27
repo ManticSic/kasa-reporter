@@ -1,6 +1,5 @@
 from time import sleep
 from kasa import SmartDevice
-
 from models.SmartDeviceSpare import SmartDeviceSpare
 from models.customeemterstatus import CustomEmeterStatus
 from services.backgroundservice import BackgroundService
@@ -8,6 +7,7 @@ from services.discoveryservice import DiscoveryService
 from setup.log import get_logger
 
 logger = get_logger('EmeterService')
+
 
 class EmeterService(BackgroundService):
     def __init__(self, discovery_service: DiscoveryService):
@@ -20,10 +20,10 @@ class EmeterService(BackgroundService):
             for device in devices:
                 try:
                     data = await self.__fetch(device)
-                    logger.info('Fetched data.', data=data, device=SmartDeviceSpare(device))
-                except Exception as exception:
-                    logger.error('Failed to fetch data.', exception=exception, device=SmartDeviceSpare(device))
-                    exception
+                    logger.info('Fetched data.', data=data.__dict__, device=SmartDeviceSpare(device).__dict__)
+                except Exception:
+                    # todo log and format exception
+                    logger.error('Failed to fetch data.', device=SmartDeviceSpare(device).__dict__)
             sleep(5)
 
         self.cancellation_token = None
